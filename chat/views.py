@@ -4,3 +4,11 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, "chat/layout.html")
+
+
+def groups(request):
+    return render(request, "chat/layout.html")
+
+
+def friends(request):
+    return render(request, "chat/layout.html")
