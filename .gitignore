@@ -2,7 +2,8 @@
 venv/
 .vscode/
 __pycache__/
+.idea/
 
 # Files
 db.sqlite3
-todo.md
+info.txt
