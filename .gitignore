@@ -1,10 +1,11 @@
 # Folders
 venv/
 .vscode/
-__pycache__/
+**__pycache__/
 .idea/
 
 # Files
 db.sqlite3
 info.txt
-
+*.pyc
+*.pyo
