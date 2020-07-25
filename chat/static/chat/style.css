@@ -2,7 +2,11 @@ body {
     background-color: #fafafa;
 }
 
-.content-selection {
+header {
+    margin-bottom: 1.5rem;
+}
+
+.content-section {
     background: #ffffff;
     padding: 10px 20px;
     border: 1px solid #dddddd;
@@ -10,6 +14,13 @@ body {
     margin-bottom: 20px;
 }
 
-header {
-    margin-bottom: 1.5rem;
+.account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+}
+
+.account-heading {
+    font-size: 2.5rem;
 }
