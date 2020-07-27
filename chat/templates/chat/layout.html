@@ -23,19 +23,10 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous" defer></script>
 
-    <!--Load react-->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin defer></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin defer></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" defer></script>
-
     <!--Load our static files-->
-    <link rel="stylesheet" href="{% static 'chat/style.css' %}" defer>
+    <link rel="stylesheet" href="{% static 'chat/style.css' %}">
     <script src="{% static 'chat/nav.js' %}" defer></script>
-    {#    <script src="{% static 'chat/index.jsx' %}" type="text/babel" defer></script>#}
-
-    {#    Uncomment for production      #}
-    {#    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin defer></script>#}
-    {#    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin defer></script>#}
+    <script src="{% static 'chat/message.js' %}" defer></script>
 
 
     <title>{% block title %}Chat{% endblock %}</title>
@@ -92,10 +83,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-
-                {% block body %}{% endblock %}
             </div>
         </div>
+        {% block body %}{% endblock %}
     </main>
 </body>
 </html>

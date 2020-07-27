@@ -24,3 +24,7 @@ header {
 .account-heading {
     font-size: 2.5rem;
 }
+
+.list-group:hover {
+    background-color: deepskyblue;
+}

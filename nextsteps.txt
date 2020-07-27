@@ -1,0 +1,34 @@
+User interface
+    - Look into bootstrap further for an optimal design spec for this context
+        - Maybe articles?
+
+    React
+    - We can have a base layout for how the pages are populated,
+        but the messages will be made via components
+
+    Current
+    - Currently col-8 of relative feed (dm, group, etc)
+    - Col-4 sidebar containing user navigation between dm, group, etc
+
+Handling conversations
+    - Messages contain author, recipient, content and timestamp
+    - When messages are sent we can use send_message
+
+Friends
+    - Initially we should add friends directly via their username (since they are unique)
+    - Then we can show recommended friends (mutual friends)
+    - We need friend requests
+
+Setup messaging API
+    - We can GET the messages from request.user to another user based on user_id
+    - Need a POST handler to send messages
+
+DJANGO WEBSOCKET PROTOCOL @lymotas
+    - Users should be able to see when the other person is typing
+    - And once the message is sent it should update on our end without a page refresh
+
+Look into Node for the realtime stuff
+
+
+Git
+    - remove the fucking pycache

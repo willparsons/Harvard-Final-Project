@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     links.forEach(link => {
         if (link.pathname === page) {
             link.classList.add("active");
-        }
-        else {
+        } else {
             link.classList.remove("active");
         }
     });

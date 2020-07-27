@@ -1,0 +1,34 @@
+Chat App:
+
+    Pages:
+        ☐ Home
+        ☐ Groups
+        ☐ Friends
+        ☐ Login / Logout
+        ☐ Register
+
+    User:
+        Friends:
+            ☐ Bidirectional
+            ☐ Have to accept friend request to become friends
+            ☐ Can create groups of friends
+
+        Profile:
+            ☐ Picture
+            ☐ Bio
+            ☐ Friend count
+            ☐ Date joined
+            ☐ Add friend button
+            ☐ Private option (not important)
+
+        Groups:
+            ☐ Collection of friends
+            ☐ As long as one mutual friend, you can join
+            ☐ Private DM section
+
+    Messages:
+        ☐ Text
+        ☐ Images / GIF
+        ☐ No file sharing
+
+    
