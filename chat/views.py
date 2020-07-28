@@ -1,5 +1,7 @@
+import json
 from builtins import isinstance
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.core import serializers
 from django.db import IntegrityError
@@ -22,12 +24,11 @@ def index(request):
     })
 
 
-def groups(request):
-    return render(request, "chat/layout.html")
-
-
-def friends(request):
-    return render(request, "chat/layout.html")
+@login_required
+def room(request, room_name):
+    return render(request, "chat/room.html", {
+        "room_name": room_name
+    })
 
 
 def messages_api(request, user_id: int):

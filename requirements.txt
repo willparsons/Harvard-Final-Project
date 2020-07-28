@@ -1,0 +1,4 @@
+django~=3.0.8
+asgiref~=3.2.10
+channels~=2.4.0
+Pillow~=7.2.0

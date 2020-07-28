@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
+
+# Channels
+ASGI_APPLICATION = 'chat_project.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

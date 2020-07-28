@@ -10,25 +10,23 @@ User interface
     - Currently col-8 of relative feed (dm, group, etc)
     - Col-4 sidebar containing user navigation between dm, group, etc
 
-Handling conversations
-    - Messages contain author, recipient, content and timestamp
-    - When messages are sent we can use send_message
-
 Friends
     - Initially we should add friends directly via their username (since they are unique)
     - Then we can show recommended friends (mutual friends)
     - We need friend requests
 
-Setup messaging API
-    - We can GET the messages from request.user to another user based on user_id
-    - Need a POST handler to send messages
 
 DJANGO WEBSOCKET PROTOCOL @lymotas
     - Users should be able to see when the other person is typing
     - And once the message is sent it should update on our end without a page refresh
 
-Look into Node for the realtime stuff
+Rooms
+    - All rooms need to be private
+    - Users should select friends to make a room with
+    - Can select up to 9 additional people for a group room
 
-
-Git
-    - remove the fucking pycache
+Websocket
+    - We should find a way to change the way weo access rooms
+    - The url solution is somewhat weird (chat/room_name)
+    - Rooms should not be constrained to the name associated with them,
+        they should be infinite and private (not accessible via url)

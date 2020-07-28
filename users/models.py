@@ -25,13 +25,6 @@ class Profile(models.Model):
     def all_friends(self):
         return self.friends.all()
 
-    def send_message(self, recipient: 'Profile', content):
-        self.sent_messages.create(author=self, recipient=recipient, content=content)
-
-    # TODO: delete messages by their specific PK
-    def delete_message(self, recipient: 'Profile'):
-        self.sent_messages.filter(recipient=recipient).last().delete()
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
