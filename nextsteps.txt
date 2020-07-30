@@ -30,3 +30,10 @@ Websocket
     - The url solution is somewhat weird (chat/room_name)
     - Rooms should not be constrained to the name associated with them,
         they should be infinite and private (not accessible via url)
+
+Messages
+    - Delete a message (only the author can delete)
+    - Edit a message (only the author can delete)
+    - Timestamp formatting should be neater
+        Should say hours until it hits 24, then switch to days
+        -> "23 hours ago", "1 day ago"

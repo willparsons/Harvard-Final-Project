@@ -25,9 +25,9 @@ class Room(models.Model):
 
     def get_messages(self, amt=None):
         if amt is None:
-            return self.messages.all()
+            return self.messages.all().order_by("timestamp")[-10:]
 
-        return self.messages.all()[:amt]
+        return self.messages.all().order_by("timestamp")[-amt:]
 
 
 class Message(models.Model):

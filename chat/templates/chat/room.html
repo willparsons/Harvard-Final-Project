@@ -6,14 +6,16 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <textarea id="chat-log" cols="100" rows="20" disabled></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
-    {# Creates a script with id room-name. The content will be the value of room_name #}
+
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        // const roomName = "{{ room_name }}";
 
+        // TODO: Reconnecting web socket
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -22,9 +24,21 @@
             + '/'
         );
 
+        chatSocket.onopen = function (e) {
+            chatSocket.send(JSON.stringify({"command": "fetch_messages"}));
+        }
+
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+
+            if (data["command"] === "batch") {
+                data["data"].forEach(message => {
+                    document.querySelector("#chat-log").value += `${message.author} @${message.timestamp}: ${message.content}\n`;
+                });
+            } else if (data["command"] === "single") {
+                const message = data["data"];
+                document.querySelector("#chat-log").value += `${message.author} @${message.timestamp}: ${message.content}\n`;
+            }
         };
 
         chatSocket.onclose = function (e) {
@@ -42,7 +56,8 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'command': 'new_message',
+                'data': message
             }));
             messageInputDom.value = '';
         };
