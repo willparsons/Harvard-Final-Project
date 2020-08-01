@@ -1,6 +1,6 @@
 <!-- chat/templates/chat/room.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
@@ -12,8 +12,13 @@
 
     {{ room_name|json_script:"room-name" }}
     <script>
+        // TODO: get this into another file
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         // const roomName = "{{ room_name }}";
+
+        function messageString(message) {
+            return `(${message.id}) ${message.author} @${message.timestamp}: ${message.content}\n`;
+        }
 
         // TODO: Reconnecting web socket
         const chatSocket = new WebSocket(
@@ -33,11 +38,13 @@
 
             if (data["command"] === "batch") {
                 data["data"].forEach(message => {
-                    document.querySelector("#chat-log").value += `${message.author} @${message.timestamp}: ${message.content}\n`;
+                    document.querySelector("#chat-log").value += messageString(message);
                 });
             } else if (data["command"] === "single") {
                 const message = data["data"];
-                document.querySelector("#chat-log").value += `${message.author} @${message.timestamp}: ${message.content}\n`;
+                document.querySelector("#chat-log").value += messageString(message);
+            } else if (data["command"] === "delete") {
+                // TODO: Remove the message from the log
             }
         };
 
@@ -61,6 +68,7 @@
             }));
             messageInputDom.value = '';
         };
+
     </script>
 </body>
 </html>

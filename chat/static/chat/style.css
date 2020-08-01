@@ -1,4 +1,5 @@
 body {
+    height: 100%;
     background-color: #fafafa;
 }
 
@@ -27,4 +28,9 @@ header {
 
 .list-group:hover {
     background-color: deepskyblue;
+}
+
+
+.article-img {
+    width: 8% !important;
 }

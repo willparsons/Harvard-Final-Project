@@ -5,11 +5,10 @@ from channels.generic.websocket import WebsocketConsumer
 
 from django.contrib.auth.models import User
 
+from . import utils
 from .models import Room, Message
 
 
-# TODO: Reorganise this
-# TODO: Timestamp formatting
 class ChatConsumer(WebsocketConsumer):
     """
     Synchronous consumer for handling chatting events
@@ -43,12 +42,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data=None, bytes_data=None):
         data = json.loads(text_data)
-
-        # TODO: wrapper method that will abstract this
-        if data["command"] == "fetch_messages":
-            self.fetch_messages(data)
-        elif data["command"] == "new_message":
-            self.new_message(data)
+        self.run_command(data)
 
     # Send message to room group
     def send_chat_message(self, message):
@@ -60,10 +54,6 @@ class ChatConsumer(WebsocketConsumer):
             }
         )
 
-    # Sends a message to the WebSocket
-    def send_message(self, message):
-        self.send(text_data=json.dumps(message))
-
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
@@ -71,6 +61,21 @@ class ChatConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps(message))
 
+    # Sends a message to the WebSocket
+    def send_message(self, message):
+        self.send(text_data=json.dumps(message))
+
+    # Runs the appropriate command
+    def run_command(self, data):
+        # TODO: test this
+        if data["command"] == "fetch_messages":
+            self.fetch_messages(data)
+        elif data["command"] == "new_message":
+            self.new_message(data)
+        elif data["command"] == "delete_message":
+            self.delete_message(data)
+
+    # Adds the user as a participant and returns the current room
     def get_room(self, name: str):
         room, _ = Room.get_room(name)
         room.add_participant(self.user.profile)
@@ -78,39 +83,30 @@ class ChatConsumer(WebsocketConsumer):
 
         return room
 
+    # Sends N messages to the WebSocket
     def fetch_messages(self, data):
         messages = self.room.get_messages()
 
         obj = {
             "command": "batch",
-            "data": self.messages_to_json(messages)
+            "data": utils.messages_to_json(messages, self.room)
         }
 
         # Send message is used here since only the requesting client should get the initial update
         self.send_message(obj)
 
+    # Adds message to DB and tells the room to add it
     def new_message(self, data):
-        try:
-            message = self.room.messages.create(author=self.user.profile, room=self.room, content=data["data"])
-        except Exception as e:
-            print(e)
-            message = "INTERNAL SERVER FAILURE"
+        message = self.room.messages.create(author=self.user.profile, room=self.room, content=data["data"])
 
         obj = {
             "command": "single",
-            "data": self.message_to_json(message)
+            "data": utils.message_to_json(message, self.room)
         }
 
         self.send_chat_message(obj)
 
-    def messages_to_json(self, messages):
-        return [self.message_to_json(message) for message in messages]
-
-    def message_to_json(self, message: Message):
-        return {
-            "id": message.id,
-            "author": message.author.user.username,
-            "room": self.room.name,
-            "content": message.content,
-            "timestamp": str(message.timestamp.time())
-        }
+    # Removes the message from DB and tells the room to remove it
+    def delete_message(self, data):
+        # TODO: delete message
+        pass

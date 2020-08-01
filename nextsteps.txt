@@ -1,14 +1,18 @@
+Priority:
+    - Adding friends
+    - Private rooms
+    - Message delete
+    - Message edit
+
+
 User interface
     - Look into bootstrap further for an optimal design spec for this context
         - Maybe articles?
 
-    React
+    React (future)
     - We can have a base layout for how the pages are populated,
         but the messages will be made via components
 
-    Current
-    - Currently col-8 of relative feed (dm, group, etc)
-    - Col-4 sidebar containing user navigation between dm, group, etc
 
 Friends
     - Initially we should add friends directly via their username (since they are unique)

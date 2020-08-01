@@ -1,10 +1,35 @@
 {% extends "chat/layout.html" %}
+{% load static %}
+
+{% block head %}
+    {{ room_name|json_script:"room-name" }}
+    <script src="{% static 'chat/ws.js' %}" defer></script>
+{% endblock %}
 
 {% block body %}
     <div class="row">
+        <div class="col">
+            <h4>{{ room_name.capitalize }}</h4>
+
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-8">
-            <div class="content-section" id="message-container">
-                {# Include content here for messages #}
+            {#            <div class="content-section" hidden>#}
+            {#                <div class="form-group">#}
+            {#                    <textarea id="chat-log" class="form-control" cols="100" rows="20" disabled></textarea><br>#}
+            {#                    <input id="chat-message-input" class="form-control" type="text" size="100"><br>#}
+            {#                </div>#}
+            {#                <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>#}
+            {#            </div>#}
+
+            <div class="content-section">
+                <div id="message-container" class="overflow-auto" style="max-height: 100%;"></div>
+                <div>
+                    <div class="form-group">
+                        <input id="chat-message-input" class="form-control" type="text" size="100"><br>
+                    </div>
+                </div>
             </div>
         </div>
 

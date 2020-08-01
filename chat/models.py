@@ -15,19 +15,23 @@ class Room(models.Model):
     def get_room(name: str) -> ('Room', bool):
         return Room.objects.get_or_create(name=name)
 
-    # TODO: All rooms should be private by default, require permission to join
-    def add_participant(self, participant):
+    # TODO: All rooms should be private by default. Requires permission to join
+    def add_participant(self, participant: Profile):
         # TODO: If the user already exists, it will trigger signals
         self.participants.add(participant)
 
-    def remove_participant(self, participant):
+    def remove_participant(self, participant: Profile):
         self.participants.remove(participant)
 
-    def get_messages(self, amt=None):
-        if amt is None:
-            return self.messages.all().order_by("timestamp")[-10:]
+    def get_messages(self, amt: int = 0):
+        if amt <= 0:
+            return self.messages.all().order_by("-timestamp")[:10][::-1]
 
-        return self.messages.all().order_by("timestamp")[-amt:]
+        return self.messages.all().order_by("-timestamp")[:amt][::-1]
+
+    def delete_message(self, message_id: int, author: Profile):
+        # TODO: setup this
+        pass
 
 
 class Message(models.Model):
