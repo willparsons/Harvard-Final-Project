@@ -1,14 +1,11 @@
 Priority:
-    - Adding friends
+    - Success messages in UI
     - Private rooms
     - Message delete
     - Message edit
 
 
 User interface
-    - Look into bootstrap further for an optimal design spec for this context
-        - Maybe articles?
-
     React (future)
     - We can have a base layout for how the pages are populated,
         but the messages will be made via components
@@ -22,7 +19,6 @@ Friends
 
 DJANGO WEBSOCKET PROTOCOL @lymotas
     - Users should be able to see when the other person is typing
-    - And once the message is sent it should update on our end without a page refresh
 
 Rooms
     - All rooms need to be private
@@ -30,7 +26,7 @@ Rooms
     - Can select up to 9 additional people for a group room
 
 Websocket
-    - We should find a way to change the way weo access rooms
+    - We should find a way to change the way we access rooms
     - The url solution is somewhat weird (chat/room_name)
     - Rooms should not be constrained to the name associated with them,
         they should be infinite and private (not accessible via url)

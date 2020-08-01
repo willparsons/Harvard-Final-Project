@@ -42,7 +42,8 @@
                                     type="button" data-toggle="collapse"
                                     data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                 Friends
-                                <span class="badge badge-primary badge-pill">{{ user.profile.friend_count }}</span>
+                                <span class="badge badge-primary badge-pill"
+                                      id="friend-count">{{ friends.count }}</span>
                             </button>
                         </h2>
                     </div>
@@ -67,34 +68,50 @@
                                     type="button"
                                     data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
                                     aria-controls="collapseTwo">
-                                Groups<span class="badge badge-primary badge-pill">TODO</span>
+                                Friend Requests<span
+                                    class="badge badge-primary badge-pill"
+                                    id="fr-count">{{ friend_requests.count }}</span>
                             </button>
                         </h2>
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                         <div class="card-body">
-                            TODO
+                            <ul class="list-group">
+                                {% for fr in friend_requests %}
+                                    <li class="list-group-item" id="{{ fr.from_user.username }}">
+                                        {{ fr.from_user.username }}
+                                        <button type="button" class="btn-sm btn-primary" id="accept">Accept</button>
+                                        <button type="button" class="btn-sm btn-danger" id="reject">Reject</button>
+                                    </li>
+
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    {# TODO: Online users, maybe change this to recommended friends? #}
                     <div class="card-header" id="headingThree">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left d-flex justify-content-between align-items-center collapsed"
                                     type="button"
                                     data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
                                     aria-controls="collapseThree">
-                                Online Users<span class="badge badge-primary badge-pill">{{ profiles.count }}</span>
+                                Add a friend
                             </button>
                         </h2>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                          data-parent="#accordionExample">
                         <div class="card-body">
-                            {% for profile in profiles %}
-                                <li>{{ profile.user.username }}</li>
-                            {% endfor %}
+
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col">
+                                        <input id="friend-search" type="text" class="form-control"
+                                               placeholder="Enter a username...">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

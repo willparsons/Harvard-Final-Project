@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
