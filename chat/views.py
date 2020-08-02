@@ -35,12 +35,15 @@ def room(request, room_name):
 def send_friend_request(request, username: str):
     try:
         to_user = Profile.objects.get(user__username=username)
-    except User.DoesNotExist as e:
-        return JsonResponse({"error": "User not found"})
+    except Profile.DoesNotExist as e:
+        return JsonResponse({"error": "User not found."})
 
     fr, created = FriendRequest.objects.get_or_create(from_user=request.user.profile, to_user=to_user)
 
-    return JsonResponse({"success": "FriendRequest sent or found"})
+    if not created:
+        return JsonResponse({"error": "Friend request already sent."})
+
+    return JsonResponse({"success": "Friend request sent successfully."})
 
 
 @login_required

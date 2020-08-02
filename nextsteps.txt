@@ -1,5 +1,4 @@
 Priority:
-    - Success messages in UI
     - Private rooms
     - Message delete
     - Message edit

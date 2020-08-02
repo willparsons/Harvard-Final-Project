@@ -22,9 +22,12 @@ function addFriend(user) {
     fetch(`friend/${user}/add/`)
         .then(r => r.json())
         .then(data => {
-            console.log(data);
+            if (data["error"]) {
+                showAlert("error", data["error"], "#query-response");
+            } else if (data["success"]) {
+                showAlert("success", data["success"], "#query-response");
+            }
         });
-
 }
 
 function acceptFriendRequest(event, user) {
@@ -56,10 +59,26 @@ function hideElement(element) {
 
 function incFriends() {
     const value = parseInt(document.querySelector("#friend-count").innerHTML) + 1;
-    document.querySelector("#friend-count").innerHTML = value;
+    document.querySelector("#friend-count").innerHTML = value.toString();
 }
 
 function decFriendRequests() {
     const value = parseInt(document.querySelector("#fr-count").innerHTML) - 1;
-    document.querySelector("#fr-count").innerHTML = value;
+    document.querySelector("#fr-count").innerHTML = value.toString();
+}
+
+function showAlert(alertType, message, endPoint) {
+    const alert = document.createElement("div");
+
+    alert.setAttribute("role", "alert");
+    alert.innerHTML = message;
+
+    if (alertType === "error") {
+        alert.className = "alert alert-danger";
+    } else if (alertType === "success") {
+        alert.className = "alert alert-success";
+    }
+
+    document.querySelector(endPoint).innerHTML = "";
+    document.querySelector(endPoint).append(alert);
 }
