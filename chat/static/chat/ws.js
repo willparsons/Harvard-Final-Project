@@ -19,12 +19,14 @@ chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
 
     switch (data["command"]) {
-        case "batch":
+        case "fetch_messages":
             buildMultipleMessages(data["data"]);
             break;
-        case "single":
+
+        case "new_message":
             buildMessage(data["data"]);
             break;
+
         default:
             console.log("nothing");
             break;
@@ -76,7 +78,7 @@ function buildMessage(message) {
     const user = message.author;
 
     const article = document.createElement("article");
-    article.className = "p-1 media";
+    article.className = "p-2 media";
 
     const img = document.createElement("img");
     img.className = "rounded-circle article-img mr-3";
@@ -86,9 +88,9 @@ function buildMessage(message) {
     const mediaBody = document.createElement("div");
     mediaBody.className = "media-body";
 
-    const content = document.createElement("p");
-    content.innerHTML = message.content;
-    content.id = "content";
+    const messageContent = document.createElement("p");
+    messageContent.innerHTML = message.content;
+    messageContent.id = "message";
 
     const metadata = document.createElement("div");
     metadata.className = "article-metadata";
@@ -107,7 +109,7 @@ function buildMessage(message) {
     metadata.append(timestamp);
 
     mediaBody.append(metadata);
-    mediaBody.append(content);
+    mediaBody.append(messageContent);
 
     article.append(img);
     article.append(mediaBody);

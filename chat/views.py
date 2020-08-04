@@ -72,3 +72,10 @@ def reject_friend_request(request, username: str):
     fr.reject()
 
     return JsonResponse({"success": "FriendRequest rejected"})
+
+
+def testing(request):
+    # TODO: remove hard-code
+    return render(request, "chat/new_layout.html", {
+        "room_name": "lobby"
+    })

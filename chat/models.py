@@ -17,8 +17,7 @@ class Room(models.Model):
 
     # TODO: All rooms should be private by default. Requires permission to join
     def add_participant(self, participant: Profile):
-        # TODO: If the user already exists, it will trigger signals
-        self.participants.add(participant)
+        self.participants.add(participant)  # If the user already exists, it will trigger signals
 
     def remove_participant(self, participant: Profile):
         self.participants.remove(participant)
@@ -30,7 +29,7 @@ class Room(models.Model):
         return self.messages.all().order_by("-timestamp")[:amt][::-1]
 
     def delete_message(self, message_id: int, author: Profile):
-        # TODO: setup this
+        # TODO: Setup delete
         pass
 
 

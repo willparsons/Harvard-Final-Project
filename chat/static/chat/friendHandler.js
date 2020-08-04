@@ -1,4 +1,3 @@
-// TODO: success messages
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#friend-search").onkeyup = (e) => {
         if (e.keyCode === 13) { // enter, return

@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("chat/<str:room_name>/", views.room, name="room"),
+    path("testing/", views.testing, name="testing"),
 
     # api routes
     path("friend/<str:username>/add/", views.send_friend_request, name="send_friend_request"),

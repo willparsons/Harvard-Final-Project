@@ -70,8 +70,10 @@ class ChatConsumer(WebsocketConsumer):
         # TODO: test this
         if data["command"] == "fetch_messages":
             self.fetch_messages(data)
+
         elif data["command"] == "new_message":
             self.new_message(data)
+
         elif data["command"] == "delete_message":
             self.delete_message(data)
 
@@ -88,7 +90,7 @@ class ChatConsumer(WebsocketConsumer):
         messages = self.room.get_messages()
 
         obj = {
-            "command": "batch",
+            "command": "fetch_messages",
             "data": utils.messages_to_json(messages, self.room)
         }
 
@@ -100,7 +102,7 @@ class ChatConsumer(WebsocketConsumer):
         message = self.room.messages.create(author=self.user.profile, room=self.room, content=data["data"])
 
         obj = {
-            "command": "single",
+            "command": "new_message",
             "data": utils.message_to_json(message, self.room)
         }
 

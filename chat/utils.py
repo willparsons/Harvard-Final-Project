@@ -1,7 +1,6 @@
 from chat.models import Room, Message
 
 
-# TODO: Test it
 def message_to_json(message: Message, room: Room):
     # TODO: format this better
     time = str(message.timestamp.time())
