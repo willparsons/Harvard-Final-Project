@@ -67,7 +67,6 @@ class ChatConsumer(WebsocketConsumer):
 
     # Runs the appropriate command
     def run_command(self, data):
-        # TODO: test this
         if data["command"] == "fetch_messages":
             self.fetch_messages(data)
 

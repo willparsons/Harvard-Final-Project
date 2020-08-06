@@ -11,7 +11,6 @@ const chatSocket = new WebSocket(
 );
 
 chatSocket.onopen = function (e) {
-    // TODO: consistent naming
     chatSocket.send(JSON.stringify({"command": "fetch_messages"}));
 }
 

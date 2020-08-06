@@ -2,8 +2,7 @@ from chat.models import Room, Message
 
 
 def message_to_json(message: Message, room: Room):
-    # TODO: format this better
-    time = str(message.timestamp.time())
+    time = message.timestamp.strftime("%d/%m/%y at %I:%M %p")
 
     return {
         "id": message.id,
