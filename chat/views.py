@@ -8,19 +8,13 @@ from django.shortcuts import render, redirect
 from users.models import Profile, FriendRequest
 
 
+@login_required
 def index(request):
-    # TODO: we need a better way of handling Anon or no friends
-    if isinstance(request.user, AnonymousUser):
-        return render(request, "chat/index.html", {
-            "profiles": Profile.objects.all()
-        })
-
-    frs = FriendRequest.objects.filter(to_user=request.user.profile)
-    print(frs)
-    return render(request, "chat/index.html", {
-        "profiles": Profile.objects.all(),
+    # TODO: remove hard-code
+    return render(request, "chat/layout.html", {
+        "room_name": "lobby",
         "friends": request.user.profile.all_friends(),
-        "friend_requests": FriendRequest.objects.filter(to_user=request.user.profile)
+        "friend_requests": request.user.profile.received_requests.all()
     })
 
 
@@ -67,15 +61,22 @@ def reject_friend_request(request, username: str):
         print(e)
         return JsonResponse({"error": "FriendRequest not found"})
 
-    print("got here")
-
     fr.reject()
 
     return JsonResponse({"success": "FriendRequest rejected"})
 
 
-def testing(request):
-    # TODO: remove hard-code
-    return render(request, "chat/new_layout.html", {
-        "room_name": "lobby"
+def old_index(request):
+    # TODO: we need a better way of handling Anon or no friends
+    if isinstance(request.user, AnonymousUser):
+        return render(request, "chat/index.html", {
+            "profiles": Profile.objects.all()
+        })
+
+    frs = FriendRequest.objects.filter(to_user=request.user.profile)
+    print(frs)
+    return render(request, "chat/index.html", {
+        "profiles": Profile.objects.all(),
+        "friends": request.user.profile.all_friends(),
+        "friend_requests": FriendRequest.objects.filter(to_user=request.user.profile)
     })

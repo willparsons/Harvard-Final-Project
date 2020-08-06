@@ -32,7 +32,8 @@ header {
 
 
 .article-img {
-    width: 5% !important;
+    width: 3% !important;
+    min-width: 50px;
 }
 
 #message {

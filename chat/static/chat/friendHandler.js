@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    document.querySelector("#add-button").addEventListener("click", () => {
+        const user = document.querySelector("#friend-search").value;
+        addFriend(user);
+    });
+
     document.querySelectorAll("#accept").forEach(element => {
         const user = element.parentNode.id;
         element.addEventListener("click", (e) => acceptFriendRequest(e, user));
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function addFriend(user) {
-    fetch(`friend/${user}/add/`)
+    fetch(`/friend/${user}/add/`)
         .then(r => r.json())
         .then(data => {
             if (data["error"]) {
@@ -30,40 +35,47 @@ function addFriend(user) {
 }
 
 function acceptFriendRequest(event, user) {
-    fetch(`friend/${user}/accept/`)
+    fetch(`/friend/${user}/accept/`)
         .then(r => r.json())
         .then(data => {
             console.log(data);
         });
-    hideElement(event.target.parentNode);
 
-    incFriends();
-    decFriendRequests();
+    updateFriendRequests(user);
+    updateFriendsList(user);
 }
 
 function rejectFriendRequest(event, user) {
-    fetch(`friend/${user}/reject/`)
+    fetch(`/friend/${user}/reject/`)
         .then(r => r.json())
         .then(data => {
             console.log(data);
         });
-    hideElement(event.target.parentNode);
 
-    decFriendRequests();
+    updateFriendRequests(user);
+}
+
+function updateFriendsList(user) {
+    const li = document.createElement("li");
+    li.id = user;
+    li.innerHTML = user;
+
+    hideElement("#allFriendsPlaceholder");
+    document.querySelector("#allFriendsList").append(li);
+}
+
+function updateFriendRequests(user) {
+    deleteElement(`#${user}`);
 }
 
 function hideElement(element) {
-    element.style.display = "none";
+    document.querySelector(element).style.display = "none";
 }
 
-function incFriends() {
-    const value = parseInt(document.querySelector("#friend-count").innerHTML) + 1;
-    document.querySelector("#friend-count").innerHTML = value.toString();
-}
 
-function decFriendRequests() {
-    const value = parseInt(document.querySelector("#fr-count").innerHTML) - 1;
-    document.querySelector("#fr-count").innerHTML = value.toString();
+function deleteElement(element) {
+    console.log(document.querySelector(element).parentNode);
+    document.querySelector(element).parentNode.removeChild(document.querySelector(element));
 }
 
 function showAlert(alertType, message, endPoint) {
