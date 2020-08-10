@@ -1,45 +1,68 @@
-const roomName = JSON.parse(document.getElementById('room-name').textContent);
+// const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
+let chatSocket = undefined;
 
-// TODO: Reconnecting web socket
-const chatSocket = new WebSocket(
-    'ws://'
-    + window.location.host
-    + '/ws/chat/'
-    + roomName
-    + '/'
-);
+document.querySelectorAll("#room-name").forEach(element => {
+    element.addEventListener("click", () => {
+        setupWebSocket(element.children[0].id);
+    });
+});
 
-chatSocket.onopen = function (e) {
-    chatSocket.send(JSON.stringify({"command": "fetch_messages"}));
-}
-
-chatSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-
-    switch (data["command"]) {
-        case "fetch_messages":
-            buildMultipleMessages(data["data"]);
-            break;
-
-        case "new_message":
-            buildMessage(data["data"]);
-            break;
-
-        default:
-            console.log("nothing");
-            break;
+function setupWebSocket(roomName) {
+    if (chatSocket !== undefined) {
+        closeWebSocket();
     }
-};
 
-chatSocket.onclose = function (e) {
-    console.error('Chat socket closed unexpectedly');
-};
+    // todo: Reconnecting web socket
+    chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
 
-document.querySelector('#chat-message-input').focus();
-document.querySelector('#chat-message-input').onkeyup = function (e) {
-    if (e.keyCode === 13) {  // enter, return
-        // document.querySelector('#chat-message-submit').click();
+    chatSocket.onopen = function (e) {
+        chatSocket.send(JSON.stringify({"command": "fetch_messages"}));
+    }
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        switch (data["command"]) {
+            case "fetch_messages":
+                buildMultipleMessages(data["data"]);
+                break;
+
+            case "new_message":
+                buildMessage(data["data"]);
+                break;
+
+            default:
+                console.log("nothing");
+                break;
+        }
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            // document.querySelector('#chat-message-submit').click();
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'command': 'new_message',
+                'data': message
+            }));
+            messageInputDom.value = '';
+        }
+    };
+
+    /*document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
@@ -47,31 +70,19 @@ document.querySelector('#chat-message-input').onkeyup = function (e) {
             'data': message
         }));
         messageInputDom.value = '';
-    }
-};
-
-document.querySelector('#chat-message-submit').onclick = function (e) {
-    const messageInputDom = document.querySelector('#chat-message-input');
-    const message = messageInputDom.value;
-    chatSocket.send(JSON.stringify({
-        'command': 'new_message',
-        'data': message
-    }));
-    messageInputDom.value = '';
-};
-
-
-function messageString(message) {
-    return `(${message.id}) ${message.author} @${message.timestamp}: ${message.content}\n`;
+    };*/
 }
 
-// Determine if we have an array
+function closeWebSocket() {
+    chatSocket.close();
+    document.querySelector("#message-container").innerHTML = "";
+}
+
 function buildMultipleMessages(messages) {
     messages.forEach(message => {
         buildMessage(message);
     });
 }
-
 
 function buildMessage(message) {
     const user = message.author;

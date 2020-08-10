@@ -27,9 +27,9 @@ function addFriend(user) {
         .then(r => r.json())
         .then(data => {
             if (data["error"]) {
-                showAlert("error", data["error"], "#query-response");
+                showAlert("error", data["error"], "#friend-request-response");
             } else if (data["success"]) {
-                showAlert("success", data["success"], "#query-response");
+                showAlert("success", data["success"], "#friend-request-response");
             }
         });
 }

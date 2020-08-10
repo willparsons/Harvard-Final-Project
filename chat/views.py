@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from users.models import Profile, FriendRequest
+from chat.models import Room
 
 
 @login_required
@@ -14,7 +15,8 @@ def index(request):
     return render(request, "chat/layout.html", {
         "room_name": "lobby",
         "friends": request.user.profile.all_friends(),
-        "friend_requests": request.user.profile.received_requests.all()
+        "friend_requests": request.user.profile.received_requests.all(),
+        "rooms": request.user.profile.rooms.all()
     })
 
 
@@ -64,6 +66,30 @@ def reject_friend_request(request, username: str):
     fr.reject()
 
     return JsonResponse({"success": "FriendRequest rejected"})
+
+
+@login_required
+def create_room(request, display_name, participants: str):
+    participants_list = [request.user.profile]
+
+    for p in participants.split(";"):
+        try:
+            participant = Profile.objects.get(user__username=p)
+            participants_list.append(participant)
+        except Profile.DoesNotExist:
+            return JsonResponse({"error": f"{p} was not found."})
+
+    try:
+        Room.create_room(display_name, participants_list)
+    except Exception as e:
+        return JsonResponse({"error": e})
+
+    return JsonResponse({"success": "Room created."})
+
+
+@login_required
+def load_room(request):
+    return HttpResponse(status=204)
 
 
 def old_index(request):

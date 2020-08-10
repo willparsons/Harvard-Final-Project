@@ -5,15 +5,12 @@ Priority:
 
 
 User interface
-    React (future)
-    - We can have a base layout for how the pages are populated,
-        but the messages will be made via components
+    Svelte framework
+    Tailwind CSS library
 
 
 Friends
-    - Initially we should add friends directly via their username (since they are unique)
-    - Then we can show recommended friends (mutual friends)
-    - We need friend requests
+    Recommended friends (mutual friends)
 
 
 DJANGO WEBSOCKET PROTOCOL @lymotas
@@ -33,6 +30,3 @@ Websocket
 Messages
     - Delete a message (only the author can delete)
     - Edit a message (only the author can delete)
-    - Timestamp formatting should be neater
-        Should say hours until it hits 24, then switch to days
-        -> "23 hours ago", "1 day ago"

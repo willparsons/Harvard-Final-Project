@@ -27,7 +27,7 @@
     {{ room_name|json_script:"room-name" }}
     <script defer src="{% static 'chat/ws.js' %}"></script>
     <script defer src="{% static 'chat/friendHandler.js' %}"></script>
-
+    <script defer src="{% static 'chat/roomHandler.js' %}"></script>
 </head>
 
 <body>
@@ -74,6 +74,20 @@
 
                         <li>
                             <a href="#" data-toggle="modal" data-target="#addFriendModal">Add friends</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#roomSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-door-open"></i>
+                        Rooms
+                    </a>
+                    <ul class="collapse list-unstyled" id="roomSubMenu">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#myRoomsModal">My rooms</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#createRoomModal">Create a room</a>
                         </li>
                     </ul>
                 </li>
@@ -149,7 +163,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div id="query-response"></div>
+                            <div id="friend-request-response"></div>
 
                             <ul class="list-unstyled">
                                 <input type="text" id="friend-search" class="form-control" placeholder="Username...">
@@ -159,6 +173,71 @@
                             <button type="button" class="btn btn-primary" id="add-button">Add</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="myRoomsModal" tabindex="-1" aria-labelledby="myRoomsModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myRoomsModalLabel">My rooms</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-unstyled">
+                                <!--todo: swapping rooms-->
+                                {% for room in rooms %}
+                                    <li id="room-name">
+                                        <a href="#" id="{{ room.name }}">{{ room.display_name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            Footer
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createRoomModalLabel">Create a room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="createRoomForm">
+                            <div class="modal-body">
+                                <div id="create-room-response"></div>
+
+                                <div class="form-group">
+                                    <h6>Room name</h6>
+                                    <input type="text" name="display-name" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <h6>Select participants</h6>
+                                    <select class="custom-select" name="participants" multiple>
+                                        {% for friend in friends %}
+                                            <option value="{{ friend.username }}">{{ friend.username }}</option>
+                                        {% endfor %}
+                                        <option value="notreal">notreal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Create room</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

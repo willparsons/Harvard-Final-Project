@@ -78,7 +78,7 @@ class ChatConsumer(WebsocketConsumer):
 
     # Adds the user as a participant and returns the current room
     def get_room(self, name: str):
-        room, _ = Room.get_room(name)
+        room = Room.get_room(name)
         room.add_participant(self.user.profile)
         print(f"Participants in current room : {room.participants.all()}")
 
