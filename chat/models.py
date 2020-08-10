@@ -15,13 +15,12 @@ class Room(models.Model):
         return f"Room {self.id}: {self.name}"
 
     @staticmethod
-    # todo: make sure this is handling rooms properly
     def get_room(name: str) -> ('Room', bool):
         return Room.objects.get(name=name)
 
     @staticmethod
     def create_room(display_name: str, participants: [] = None):
-        name = uuid.uuid4().hex[:32].upper()  # Should create a unique string value every time
+        name = uuid.uuid4().hex[:32].upper()  # Creates a unique string value
 
         r = Room.objects.create(display_name=display_name, name=name)
 
@@ -31,7 +30,6 @@ class Room(models.Model):
 
         return r
 
-    # todo: All rooms should be private by default. Requires permission to join
     def add_participant(self, participant: Profile):
         if participant not in self.participants.all():
             self.participants.add(participant)  # If the user already exists, it will trigger signals
@@ -44,6 +42,10 @@ class Room(models.Model):
 
     def delete_message(self, message_id: int, author: Profile):
         # todo: Setup delete
+        pass
+
+    def edit_message(self, message_id: int):
+        # todo: Setup edit
         pass
 
 

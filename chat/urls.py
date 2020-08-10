@@ -12,5 +12,4 @@ urlpatterns = [
 
     # room API
     path("room/create/<str:display_name>/<str:participants>/", views.create_room, name="create_room"),
-    path("room/load/<str:room_name>/", views.load_room, name="load_room")
 ]

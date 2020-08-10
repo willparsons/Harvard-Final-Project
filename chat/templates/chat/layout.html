@@ -24,7 +24,6 @@
             integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
             crossorigin="anonymous"></script>
 
-    {{ room_name|json_script:"room-name" }}
     <script defer src="{% static 'chat/ws.js' %}"></script>
     <script defer src="{% static 'chat/friendHandler.js' %}"></script>
     <script defer src="{% static 'chat/roomHandler.js' %}"></script>
@@ -198,7 +197,7 @@
                             </ul>
                         </div>
                         <div class="modal-footer">
-                            Footer
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -229,7 +228,6 @@
                                         {% for friend in friends %}
                                             <option value="{{ friend.username }}">{{ friend.username }}</option>
                                         {% endfor %}
-                                        <option value="notreal">notreal</option>
                                     </select>
                                 </div>
                             </div>

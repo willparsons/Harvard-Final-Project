@@ -11,9 +11,7 @@ from chat.models import Room
 
 @login_required
 def index(request):
-    # TODO: remove hard-code
     return render(request, "chat/layout.html", {
-        "room_name": "lobby",
         "friends": request.user.profile.all_friends(),
         "friend_requests": request.user.profile.received_requests.all(),
         "rooms": request.user.profile.rooms.all()
@@ -85,11 +83,6 @@ def create_room(request, display_name, participants: str):
         return JsonResponse({"error": e})
 
     return JsonResponse({"success": "Room created."})
-
-
-@login_required
-def load_room(request):
-    return HttpResponse(status=204)
 
 
 def old_index(request):
