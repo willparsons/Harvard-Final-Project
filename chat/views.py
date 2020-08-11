@@ -1,12 +1,9 @@
-from builtins import isinstance
-
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import AnonymousUser, User
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render
 
-from users.models import Profile, FriendRequest
 from chat.models import Room
+from users.models import Profile, FriendRequest
 
 
 @login_required
@@ -15,13 +12,6 @@ def index(request):
         "friends": request.user.profile.all_friends(),
         "friend_requests": request.user.profile.received_requests.all(),
         "rooms": request.user.profile.rooms.all()
-    })
-
-
-@login_required
-def room(request, room_name):
-    return render(request, "chat/index.html", {
-        "room_name": room_name
     })
 
 

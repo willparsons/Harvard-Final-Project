@@ -21,20 +21,6 @@ function createRoom(e) {
         });
 }
 
-function swapRoom() {
-
-}
-
-function hideElement(element) {
-    document.querySelector(element).style.display = "none";
-}
-
-
-function deleteElement(element) {
-    console.log(document.querySelector(element).parentNode);
-    document.querySelector(element).parentNode.removeChild(document.querySelector(element));
-}
-
 function showAlert(alertType, message, endPoint) {
     const alert = document.createElement("div");
 
