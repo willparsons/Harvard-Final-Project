@@ -40,6 +40,10 @@ class Room(models.Model):
     def get_messages(self, amt: int = 10):
         return self.messages.all().order_by("-timestamp")[:amt][::-1]
 
+    def get_messages_before_timestamp(self, message_id, amt: int = 10):
+        message = Message.objects.get(id=message_id)
+        return self.messages.filter(timestamp__lt=message.timestamp).order_by("-timestamp")[:amt][::-1]
+
     def delete_message(self, message_id: int, author: Profile):
         # todo: Setup delete
         pass

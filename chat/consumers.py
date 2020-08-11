@@ -70,6 +70,9 @@ class ChatConsumer(WebsocketConsumer):
         if data["command"] == "fetch_messages":
             self.fetch_messages(data)
 
+        elif data["command"] == "fetch_more_messages":
+            self.fetch_more_messages(data)
+
         elif data["command"] == "new_message":
             self.new_message(data)
 
@@ -94,6 +97,15 @@ class ChatConsumer(WebsocketConsumer):
         }
 
         # Send message is used here since only the requesting client should get the initial update
+        self.send_message(obj)
+
+    def fetch_more_messages(self, data):
+        messages = self.room.get_messages_before_timestamp(data["data"])
+
+        obj = {
+            "command": "fetch_more_messages",
+            "data": utils.messages_to_json(messages, self.room)
+        }
         self.send_message(obj)
 
     # Adds message to DB and tells the room to add it

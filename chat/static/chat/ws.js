@@ -31,7 +31,11 @@ function setupWebSocket(roomName) {
 
         switch (data["command"]) {
             case "fetch_messages":
-                buildMultipleMessages(data["data"]);
+                buildMultipleMessages(data["data"],);
+                break;
+
+            case "fetch_more_messages":
+                buildMultipleMessages(data["data"], true);
                 break;
 
             case "new_message":
@@ -62,6 +66,16 @@ function setupWebSocket(roomName) {
         }
     };
 
+    const messageContainer = document.querySelector("#message-container");
+    messageContainer.addEventListener("scroll", (e) => {
+        if (e.target.scrollTop === 0) {
+            chatSocket.send(JSON.stringify({
+                "command": "fetch_more_messages",
+                "data": messageContainer.firstChild.id
+            }));
+        }
+    });
+
     /*document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
@@ -78,17 +92,18 @@ function closeWebSocket() {
     document.querySelector("#message-container").innerHTML = "";
 }
 
-function buildMultipleMessages(messages) {
+function buildMultipleMessages(messages, prepend = false) {
     messages.forEach(message => {
-        buildMessage(message);
+        buildMessage(message, prepend);
     });
 }
 
-function buildMessage(message) {
+function buildMessage(message, prepend) {
     const user = message.author;
 
     const article = document.createElement("article");
     article.className = "p-2 media";
+    article.id = message.id;
 
     const img = document.createElement("img");
     img.className = "rounded-circle article-img mr-3";
@@ -124,5 +139,13 @@ function buildMessage(message) {
     article.append(img);
     article.append(mediaBody);
 
-    document.querySelector("#message-container").append(article);
+    const messageContainer = document.querySelector("#message-container");
+
+    if (prepend) {
+        messageContainer.prepend(article);
+    } else {
+        messageContainer.append(article);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
 }
