@@ -83,19 +83,3 @@ def create_room(request, display_name, participants: str):
         return JsonResponse({"error": e})
 
     return JsonResponse({"success": "Room created."})
-
-
-def old_index(request):
-    # TODO: we need a better way of handling Anon or no friends
-    if isinstance(request.user, AnonymousUser):
-        return render(request, "chat/index.html", {
-            "profiles": Profile.objects.all()
-        })
-
-    frs = FriendRequest.objects.filter(to_user=request.user.profile)
-    print(frs)
-    return render(request, "chat/index.html", {
-        "profiles": Profile.objects.all(),
-        "friends": request.user.profile.all_friends(),
-        "friend_requests": FriendRequest.objects.filter(to_user=request.user.profile)
-    })
