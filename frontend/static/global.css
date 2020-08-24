@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
+
+/* Site colours */
+.bg-site-color {
+    @apply bg-gray-800;
+}
+
+.border-site-color {
+    @apply border-gray-900;
+}
+
+.border-site-color-input {
+    @apply border-gray-600;
+}
+
+.text-site {
+    @apply text-gray-400;
+}
+
+/* Sidebar */
+.sidebar-active-item {
+    @apply bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100;
+}
+
+.sidebar-inactive-item {
+    @apply border-gray-900 text-gray-500;
+}
+
+.sidebar-inactive-item:hover {
+    @apply bg-gray-600 bg-opacity-25 text-gray-100;
+}
+
+/* Main content */
+.page-content {
+    @apply px-4 py-2 h-full overflow-auto;
+}
+
+/* Forms */
+.form-label {
+    @apply block text-gray-700 text-sm font-bold mb-2;
+}
+
+.form-error {
+    @apply mb-2 border-red-500;
+}
+
+/* Misc */
+body {
+    @apply font-roboto antialiased bg-site-color text-site;
+}
